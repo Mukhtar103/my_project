@@ -1,77 +1,38 @@
 
 <?php
 
-define("TAX_RATE", 5);
+$studentName = "Ahmad";
+$studentID = "ST1001";
+$subject = "Artificial Intelligence";
+$marks = 75;
 
-
-$products = [
-    ["name" => "Laptop", "price" => 800, "quantity" => 2],
-    ["name" => "Keyboard", "price" => 50, "quantity" => 3],
-    ["name" => "Mouse", "price" => 25, "quantity" => 2],
-    ["name" => "Monitor", "price" => 200, "quantity" => 1]
-];
-
-
-
-function calculateLineTotal($price, $quantity) {
-    return $price * $quantity;
+if ($marks >= 80) {
+    $grade = "A";
+} elseif ($marks >= 70) {
+    $grade = "B";
+} elseif ($marks >= 60) {
+    $grade = "C";
+} elseif ($marks >= 50) {
+    $grade = "D";
+} else {
+    $grade = "F";
 }
 
 
-function calculateDiscount($subtotal) {
-
-    if ($subtotal >= 1000) {
-        return $subtotal * 0.10; 
-    } elseif ($subtotal >= 500) {
-        return $subtotal * 0.05;
-    } else {
-        return 0;
-    }
+if ($marks >= 50) {
+    $result = "Passed";
+    $statusMessage = "Congratulations! You have passed the subject.";
+} else {
+    $result = "Failed";
+    $statusMessage = "You need to improve your marks.";
 }
-
-
-function calculateTax($amount) {
-    return $amount * (TAX_RATE / 100);
-}
-
-
-
-function calculateFinalPayable($subtotal, $discount, $tax) {
-    return $subtotal - $discount + $tax;
-}
-
-$subtotal = 0;
-
-foreach ($products as $product) {
-    $subtotal += calculateLineTotal(
-        $product["price"],
-        $product["quantity"]
-    );
-}
-
-
-
-$discount = calculateDiscount($subtotal);
-
-
-$amountAfterDiscount = $subtotal - $discount;
-
-
-$tax = calculateTax($amountAfterDiscount);
-
-
-$finalTotal = calculateFinalPayable(
-    $subtotal,
-    $discount,
-    $tax
-);
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PHP Invoice</title>
+    <title>Student Result Card</title>
 
     <style>
         body {
@@ -79,9 +40,9 @@ $finalTotal = calculateFinalPayable(
             background-color: #f2f2f2;
         }
 
-        .invoice {
-            width: 750px;
-            margin: 40px auto;
+        .result-card {
+            width: 400px;
+            margin: 50px auto;
             padding: 25px;
             background-color: white;
             border-radius: 10px;
@@ -92,110 +53,65 @@ $finalTotal = calculateFinalPayable(
             text-align: center;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        .info {
+            margin: 10px 0;
         }
 
-        th, td {
-            border: 1px solid #999;
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #ddd;
-        }
-
-        .totals {
-            width: 300px;
-            margin-left: auto;
-            margin-top: 20px;
-        }
-
-        .total-row {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .final {
+        .result {
             font-size: 20px;
             font-weight: bold;
-            margin-top: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 15px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="invoice">
+<div class="result-card">
 
-    <h2>Product Invoice</h2>
+    <h2>Student Result Card</h2>
 
-    <table>
+    <div class="info">
+        <strong>Student Name:</strong>
+        <?php echo $studentName; ?>
+    </div>
 
-        <tr>
-            <th>No.</th>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Line Total</th>
-        </tr>
+    <div class="info">
+        <strong>Student ID:</strong>
+        <?php echo $studentID; ?>
+    </div>
 
-        <?php
+    <div class="info">
+        <strong>Subject:</strong>
+        <?php echo $subject; ?>
+    </div>
 
-        $number = 1;
+    <div class="info">
+        <strong>Marks:</strong>
+        <?php echo $marks; ?>
+    </div>
 
-        foreach ($products as $product) {
+    <div class="info">
+        <strong>Grade:</strong>
+        <?php echo $grade; ?>
+    </div>
 
-           
-            $lineTotal = calculateLineTotal(
-                $product["price"],
-                $product["quantity"]
-            );
+    <div class="result">
+        <?php echo $result; ?>
+    </div>
 
-            echo "<tr>";
-            echo "<td>" . $number . "</td>";
-            echo "<td>" . $product["name"] . "</td>";
-            echo "<td>$" . number_format($product["price"], 2) . "</td>";
-            echo "<td>" . $product["quantity"] . "</td>";
-            echo "<td>$" . number_format($lineTotal, 2) . "</td>";
-            echo "</tr>";
-
-            $number++;
-        }
-
-        ?>
-
-    </table>
-
-
-    <div class="totals">
-
-        <div class="total-row">
-            <strong>Subtotal:</strong>
-            $<?php echo number_format($subtotal, 2); ?>
-        </div>
-
-        <div class="total-row">
-            <strong>Discount:</strong>
-            $<?php echo number_format($discount, 2); ?>
-        </div>
-
-        <div class="total-row">
-            <strong>Tax (<?php echo TAX_RATE; ?>%):</strong>
-            $<?php echo number_format($tax, 2); ?>
-        </div>
-
-        <div class="final">
-            Final Total:
-            $<?php echo number_format($finalTotal, 2); ?>
-        </div>
-
+    <div class="status">
+        <?php echo $statusMessage; ?>
     </div>
 
 </div>
 
 </body>
 </html>
+
